@@ -28,32 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnClose = new Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Home));
             label1 = new Label();
             btnPlay = new Button();
+            btnImgClose = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)btnImgClose).BeginInit();
             SuspendLayout();
-            // 
-            // btnClose
-            // 
-            btnClose.BackgroundImageLayout = ImageLayout.None;
-            btnClose.FlatAppearance.BorderSize = 0;
-            btnClose.FlatStyle = FlatStyle.Flat;
-            btnClose.Image = Properties.Resources.close_button;
-            btnClose.Location = new Point(313, 12);
-            btnClose.Name = "btnClose";
-            btnClose.Size = new Size(25, 25);
-            btnClose.TabIndex = 0;
-            btnClose.UseVisualStyleBackColor = true;
-            btnClose.Click += btnClose_Click;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(109, 12);
+            label1.Location = new Point(95, 9);
             label1.Name = "label1";
-            label1.Size = new Size(132, 28);
+            label1.Size = new Size(104, 21);
             label1.TabIndex = 1;
             label1.Text = "TIC-TAC-TOE";
             // 
@@ -64,35 +53,48 @@
             btnPlay.FlatAppearance.BorderSize = 3;
             btnPlay.FlatStyle = FlatStyle.Popup;
             btnPlay.Font = new Font("Segoe UI", 13F, FontStyle.Bold, GraphicsUnit.Point);
-            btnPlay.Location = new Point(100, 211);
+            btnPlay.Location = new Point(88, 158);
+            btnPlay.Margin = new Padding(3, 2, 3, 2);
             btnPlay.Name = "btnPlay";
-            btnPlay.Size = new Size(150, 40);
+            btnPlay.Size = new Size(131, 30);
             btnPlay.TabIndex = 2;
             btnPlay.Text = "PLAY";
             btnPlay.UseVisualStyleBackColor = false;
-            btnPlay.Click += btnPlay_Click;
+            btnPlay.Click += BtnPlay_Click;
+            // 
+            // btnImgClose
+            // 
+            btnImgClose.Image = (Image)resources.GetObject("btnImgClose.Image");
+            btnImgClose.Location = new Point(269, 12);
+            btnImgClose.Name = "btnImgClose";
+            btnImgClose.Size = new Size(25, 25);
+            btnImgClose.SizeMode = PictureBoxSizeMode.CenterImage;
+            btnImgClose.TabIndex = 21;
+            btnImgClose.TabStop = false;
+            btnImgClose.Click += BtnClose_Click;
             // 
             // Home
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(42, 42, 42);
-            ClientSize = new Size(350, 450);
+            ClientSize = new Size(306, 338);
+            Controls.Add(btnImgClose);
             Controls.Add(btnPlay);
             Controls.Add(label1);
-            Controls.Add(btnClose);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Home";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)btnImgClose).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Button btnClose;
         private Label label1;
         private Button btnPlay;
+        private PictureBox btnImgClose;
     }
 }

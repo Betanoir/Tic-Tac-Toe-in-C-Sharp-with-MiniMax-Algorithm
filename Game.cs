@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,22 +15,22 @@ namespace Tic_Tac_Toe
 {
     public partial class Game : Form
     {
-        bool playerTurn; // if true, its the player's turn, else it is the computer's turn
-        int turn_count = 0;
-        Button[] buttons;
-        string[] board; // an array of all the different values in each button where each can either be "X", "O", or ""
-        int winStreak = 0;
-        int wins = 0;
-        int losses = 0;
-        int draws = 0;
-        Random random = new();
-        int starterBool;
+        private bool PlayerTurn { get; set; } // if true, its the player's turn, else it is the computer's turn
+        private int Turn_count { get; set; }
+        private Button[] Buttons { get; set; }
+        private string[] Board { get; set; } // an array of all the different values in each button where each can either be "X", "O", or ""
+        private int WinStreak { get; set; }
+        private int Wins { get; set; }
+        private int Losses { get; set; }
+        private int Draws { get; set; }
+        private readonly Random random = new();
+        private int StarterBool { get; set; }
 
         public Game()
         {
             InitializeComponent();
-            buttons = new Button[] { A1, A2, A3, B1, B2, B3, C1, C2, C3 };
-            board = new string[] { "", "", "", "", "", "", "", "", "" };
+            Buttons = new Button[] { A1, A2, A3, B1, B2, B3, C1, C2, C3 };
+            Board = new string[] { "", "", "", "", "", "", "", "", "" };
         }
 
         private void Game_Load(object sender, EventArgs e)
@@ -39,115 +40,113 @@ namespace Tic_Tac_Toe
 
         private void SetAllButtonsDisabled()
         {
-            foreach (Button button in buttons) button.Enabled = false;
+            foreach (Button button in Buttons) button.Enabled = false;
         }
 
         private void GameReset()
         {
-            foreach (Button button in buttons) button.Text = "";
-            for (int i = 0; i < board.Length; i++) board[i] = "";
+            foreach (Button button in Buttons) button.Text = "";
+            for (int i = 0; i < Board.Length; i++) Board[i] = "";
             SetAllButtonsDisabled();
 
-            turn_count = 0;
+            Turn_count = 0;
 
-            starterBool = random.Next(0, 2);
+            StarterBool = random.Next(0, 2);
 
             btnPlayAgain.Enabled = false;
             btnPlayAgain.BackColor = Color.FromArgb(71, 99, 74);
             lblWinLose.Text = "";
 
-            if (starterBool == 1)
+            if (StarterBool == 1)
             {
-                playerTurn = true;
-                foreach (Button button in buttons) button.Enabled = true;
+                PlayerTurn = true;
+                foreach (Button button in Buttons) button.Enabled = true;
             }
             else
             {
-                playerTurn = false;
+                PlayerTurn = false;
                 AIClick();
             }
         }
 
-        private void btnGame_Click(object sender, EventArgs e)
+        private void BtnGame_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             SetAllButtonsDisabled();
 
-            Debug.WriteLine(button.ForeColor);
-
-            button.Text = starterBool == 1 && playerTurn
-                ? "X" : starterBool == 0 && !playerTurn
+            button.Text = StarterBool == 1 && PlayerTurn
+                ? "X" : StarterBool == 0 && !PlayerTurn
                 ? "X" : "O";
 
-            for (int i = 0; i < buttons.Length; i++) 
-                if (buttons[i].Name == button.Name) board[i] = button.Text;
+            for (int i = 0; i < Buttons.Length; i++)
+                if (Buttons[i].Name == button.Name) Board[i] = button.Text;
 
-            turn_count++;
-            playerTurn = !playerTurn;
-            string? winner = checkWinner(button.Text);
+            Turn_count++;
+            PlayerTurn = !PlayerTurn;
+            string? winner = CheckWinner(button.Text);
 
-            if (winner != null) endGame(winner);
+            if (winner != null) EndGame(winner);
             else
             {
-                if (!playerTurn) AIClick();
-                else foreach (Button buttonGame in buttons) if (buttonGame.Text == "") buttonGame.Enabled = true;
+                if (!PlayerTurn) AIClick();
+                else foreach (Button buttonGame in Buttons) if (buttonGame.Text == "") buttonGame.Enabled = true;
             }
         }
 
-        private string? checkWinner(string XorO)
+        private string? CheckWinner(string XorO)
         {
             string? winner = null;
             // ---
-            if ((board[0] == board[1] && board[1] == board[2] && board[1] != "") ||
-                (board[3] == board[4] && board[4] == board[5] && board[4] != "") ||
-                (board[6] == board[7] && board[7] == board[8] && board[7] != ""))
+            if ((Board[0] == Board[1] && Board[1] == Board[2] && Board[1] != "") ||
+                (Board[3] == Board[4] && Board[4] == Board[5] && Board[4] != "") ||
+                (Board[6] == Board[7] && Board[7] == Board[8] && Board[7] != ""))
                 winner = XorO;
             // |||
-            else if ((board[0] == board[3] && board[3] == board[6] && board[3] != "") ||
-                (board[1] == board[4] && board[4] == board[7] && board[4] != "") ||
-                (board[2] == board[5] && board[5] == board[8] && board[5] != ""))
+            else if ((Board[0] == Board[3] && Board[3] == Board[6] && Board[3] != "") ||
+                (Board[1] == Board[4] && Board[4] == Board[7] && Board[4] != "") ||
+                (Board[2] == Board[5] && Board[5] == Board[8] && Board[5] != ""))
                 winner = XorO;
             // X
-            else if ((board[0] == board[4] && board[4] == board[8] && board[4] != "") ||
-                (board[2] == board[4] && board[4] == board[6] && board[4] != ""))
+            else if ((Board[0] == Board[4] && Board[4] == Board[8] && Board[4] != "") ||
+                (Board[2] == Board[4] && Board[4] == Board[6] && Board[4] != ""))
                 winner = XorO;
 
-            if (winner == null && turn_count == 9) return "tie";
+            if (winner == null && Turn_count == 9) return "tie";
 
             int temp_turn_count = 0;
-            foreach (string text in board) if (text != "") temp_turn_count++;
+            foreach (string text in Board) if (text != "") temp_turn_count++;
             if (winner == null && temp_turn_count == 9) return "tie";
 
             return winner;
         }
 
-        private void endGame(string? winner)
+        private void EndGame(string? winner)
         {
             SetAllButtonsDisabled();
 
-            switch (starterBool)
+            switch (StarterBool)
             {
                 case 1 when winner == "X":
                 case 0 when winner == "O":
-                    winStreak++;
-                    wins++;
-                    lblWins.Text = "Wins: " + wins;
-                    lblWinStreak.Text = "Win Streak: " + winStreak;
+                    WinStreak++;
+                    Wins++;
+                    lblWins.Text = "Wins: " + Wins;
+                    lblWinStreak.Text = "Win Streak: " + WinStreak;
                     lblWinLose.Text = "You Win!";
                     break;
                 case 1 when winner == "O":
                 case 0 when winner == "X":
-                    losses++;
-                    winStreak = 0;
-                    lblLosses.Text = "Losses: " + losses;
-                    lblWinStreak.Text = "Win Streak: " + winStreak;
+                    Losses++;
+                    WinStreak = 0;
+                    lblLosses.Text = "Losses: " + Losses;
+                    lblWinStreak.Text = "Win Streak: " + WinStreak;
                     lblWinLose.Text = "You Lose!";
                     break;
                 default:
-                    draws++;
-                    winStreak = 0;
-                    lblDraws.Text = "Draws: " + draws;
-                    lblWinStreak.Text = "Win Streak: " + winStreak;
+                    Draws++;
+                    WinStreak = 0;
+                    lblDraws.Text = "Draws: " + Draws;
+                    lblWinStreak.Text = "Win Streak: " + WinStreak;
                     lblWinLose.Text = "Draw!";
                     break;
             }
@@ -161,47 +160,53 @@ namespace Tic_Tac_Toe
             btnPlayAgain.BackColor = Color.FromArgb(192, 255, 192);
         }
 
-        
+        int nodeIndex = 0; // The number of nodes being traversed in the algorithm
         private void AIClick()
         {
-            int bestScore = starterBool == 0 ? -10 : 10;
+            nodeIndex = 0;
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            int bestScore = StarterBool == 0 ? -1000 : 1000;
+            int MIN = -1000;
+            int MAX = 1000;   
             Button bestNextMove = new();
 
-            for (int i = 0; i < board.Length; i++)
+            for (int i = 0; i < Board.Length; i++)
             {
-                if (board[i] == "")
+                if (Board[i] == "")
                 {
-                    // if starterBool == 0 computer is X and therefore it is maximising
-                    board[i] = starterBool == 0 ? "X" : "O";
-                    int score = minimax(board, board[i], 0, starterBool == 1);
-                    board[i] = "";
+                    nodeIndex++;
+                    Board[i] = StarterBool == 0 ? "X" : "O";
+                    int score = Minimax(Board, Board[i], 0, StarterBool == 1, MIN, MAX);
+                    Board[i] = "";
 
-                    if (starterBool == 0 && score > bestScore)
+                    if (StarterBool == 0 && score > bestScore)
                     {
                         bestScore = score;
-                        bestNextMove = buttons[i];
+                        bestNextMove = Buttons[i];
                     }
-                    else if (starterBool == 1 && score < bestScore)
+                    else if (StarterBool == 1 && score < bestScore)
                     {
                         bestScore = score;
-                        bestNextMove = buttons[i];
+                        bestNextMove = Buttons[i];
                     }
                 }
             }
 
+            stopwatch.Stop();
+            Debug.WriteLine($"Number of nodes that have been traversed: {nodeIndex}, taking {stopwatch.ElapsedMilliseconds}ms to complete");
             bestNextMove.Enabled = true;
             bestNextMove.PerformClick();
         }
 
-        private Dictionary<string, int> scores = new()
+        private readonly Dictionary<string, int> scores = new()
         {
             { "X", 1 },
             { "O", -1 },
             { "tie", 0 },
         };
-        private int minimax(string[] board, string latestXorO, int depth, bool isMaximising)
+        private int Minimax(string[] board, string latestXorO, int depth, bool isMaximising, int alpha, int beta)
         {
-            string? result = checkWinner(latestXorO);
+            string? result = CheckWinner(latestXorO);
             if (result != null)
             {
                 return scores[result];
@@ -209,48 +214,54 @@ namespace Tic_Tac_Toe
 
             if (isMaximising)
             {
-                int bestScore = -10; // Low number due to algorithm trying to find the highest possible number
+                int bestScore = -1000; // Low number due to algorithm trying to find the highest possible number
                 for (int i = 0; i < board.Length; i++)
                 {
                     if (board[i] == "")
                     {
-                        // if starterBool == 0 computer is X and therefore it is maximising
+                        nodeIndex++;
                         board[i] = latestXorO == "X" ? "O" : "X";
-                        int score = minimax(board, board[i], depth + 1, false);
+                        int score = Minimax(board, board[i], depth + 1, false, alpha, beta);
                         board[i] = "";
 
                         bestScore = Math.Max(score, bestScore);
+                        alpha = Math.Max(bestScore, alpha);
+
+                        if (beta <= alpha) break;
                     }
                 }
                 return bestScore;
-            } else
+            }
+            else
             {
-                int bestScore = 10; // High number due to algorithm trying to find the lowest possible number
+                int bestScore = 1000; // High number due to algorithm trying to find the lowest possible number
                 for (int i = 0; i < board.Length; i++)
                 {
                     if (board[i] == "")
                     {
-                        // if starterBool == 0 computer is X and therefore it is maximising
+                        nodeIndex++;
                         board[i] = latestXorO == "X" ? "O" : "X";
-                        int score = minimax(board, board[i], depth + 1, true);
+                        int score = Minimax(board, board[i], depth + 1, true, alpha, beta);
                         board[i] = "";
 
                         bestScore = Math.Min(score, bestScore);
+                        beta = Math.Min(bestScore, beta);
+
+                        if (beta <= alpha) break;
                     }
                 }
                 return bestScore;
             }
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void BtnClose_Click(object sender, EventArgs e)
         {
             Process.GetCurrentProcess().Kill();
         }
 
-        private void btnPlayAgain_Click(object sender, EventArgs e)
+        private void BtnPlayAgain_Click(object sender, EventArgs e)
         {
             GameReset();
         }
-
     }
 }

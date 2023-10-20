@@ -9,14 +9,14 @@ namespace Tic_Tac_Toe
             InitializeComponent();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void BtnClose_Click(object sender, EventArgs e)
         {
             Process.GetCurrentProcess().Kill();
         }
 
-        private void btnPlay_Click(object sender, EventArgs e)
+        private void BtnPlay_Click(object sender, EventArgs e)
         {
-            Game game = new Game();
+            Game game = new();
             this.Hide();
             game.ShowDialog();
         }

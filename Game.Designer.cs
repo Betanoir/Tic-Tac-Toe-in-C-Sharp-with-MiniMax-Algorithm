@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Game));
             label1 = new Label();
-            btnClose = new Button();
             btnPlayAgain = new Button();
             lblWins = new Label();
             lblLosses = new Label();
@@ -45,6 +45,8 @@
             A3 = new Button();
             A2 = new Button();
             A1 = new Button();
+            btnImgClose = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)btnImgClose).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -57,20 +59,6 @@
             label1.Size = new Size(104, 21);
             label1.TabIndex = 3;
             label1.Text = "TIC-TAC-TOE";
-            // 
-            // btnClose
-            // 
-            btnClose.BackgroundImageLayout = ImageLayout.None;
-            btnClose.FlatAppearance.BorderSize = 0;
-            btnClose.FlatStyle = FlatStyle.Flat;
-            btnClose.Image = Properties.Resources.close_button;
-            btnClose.Location = new Point(274, 9);
-            btnClose.Margin = new Padding(3, 2, 3, 2);
-            btnClose.Name = "btnClose";
-            btnClose.Size = new Size(22, 19);
-            btnClose.TabIndex = 2;
-            btnClose.UseVisualStyleBackColor = true;
-            btnClose.Click += btnClose_Click;
             // 
             // btnPlayAgain
             // 
@@ -88,7 +76,7 @@
             btnPlayAgain.TabIndex = 5;
             btnPlayAgain.Text = "PLAY AGAIN";
             btnPlayAgain.UseVisualStyleBackColor = false;
-            btnPlayAgain.Click += btnPlayAgain_Click;
+            btnPlayAgain.Click += BtnPlayAgain_Click;
             // 
             // lblWins
             // 
@@ -156,7 +144,7 @@
             C3.Size = new Size(92, 79);
             C3.TabIndex = 19;
             C3.UseVisualStyleBackColor = false;
-            C3.Click += btnGame_Click;
+            C3.Click += BtnGame_Click;
             // 
             // C2
             // 
@@ -170,7 +158,7 @@
             C2.Size = new Size(92, 79);
             C2.TabIndex = 18;
             C2.UseVisualStyleBackColor = false;
-            C2.Click += btnGame_Click;
+            C2.Click += BtnGame_Click;
             // 
             // C1
             // 
@@ -184,7 +172,7 @@
             C1.Size = new Size(92, 79);
             C1.TabIndex = 17;
             C1.UseVisualStyleBackColor = false;
-            C1.Click += btnGame_Click;
+            C1.Click += BtnGame_Click;
             // 
             // B3
             // 
@@ -198,7 +186,7 @@
             B3.Size = new Size(92, 79);
             B3.TabIndex = 16;
             B3.UseVisualStyleBackColor = false;
-            B3.Click += btnGame_Click;
+            B3.Click += BtnGame_Click;
             // 
             // B2
             // 
@@ -212,7 +200,7 @@
             B2.Size = new Size(92, 79);
             B2.TabIndex = 15;
             B2.UseVisualStyleBackColor = false;
-            B2.Click += btnGame_Click;
+            B2.Click += BtnGame_Click;
             // 
             // B1
             // 
@@ -226,7 +214,7 @@
             B1.Size = new Size(92, 79);
             B1.TabIndex = 14;
             B1.UseVisualStyleBackColor = false;
-            B1.Click += btnGame_Click;
+            B1.Click += BtnGame_Click;
             // 
             // A3
             // 
@@ -240,7 +228,7 @@
             A3.Size = new Size(92, 79);
             A3.TabIndex = 13;
             A3.UseVisualStyleBackColor = false;
-            A3.Click += btnGame_Click;
+            A3.Click += BtnGame_Click;
             // 
             // A2
             // 
@@ -254,7 +242,7 @@
             A2.Size = new Size(92, 79);
             A2.TabIndex = 12;
             A2.UseVisualStyleBackColor = false;
-            A2.Click += btnGame_Click;
+            A2.Click += BtnGame_Click;
             // 
             // A1
             // 
@@ -267,7 +255,18 @@
             A1.Size = new Size(92, 79);
             A1.TabIndex = 11;
             A1.UseVisualStyleBackColor = false;
-            A1.Click += btnGame_Click;
+            A1.Click += BtnGame_Click;
+            // 
+            // btnImgClose
+            // 
+            btnImgClose.Image = (Image)resources.GetObject("btnImgClose.Image");
+            btnImgClose.Location = new Point(269, 9);
+            btnImgClose.Name = "btnImgClose";
+            btnImgClose.Size = new Size(25, 25);
+            btnImgClose.SizeMode = PictureBoxSizeMode.CenterImage;
+            btnImgClose.TabIndex = 20;
+            btnImgClose.TabStop = false;
+            btnImgClose.Click += BtnClose_Click;
             // 
             // Game
             // 
@@ -275,6 +274,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(42, 42, 42);
             ClientSize = new Size(306, 412);
+            Controls.Add(btnImgClose);
             Controls.Add(C3);
             Controls.Add(C2);
             Controls.Add(C1);
@@ -291,7 +291,6 @@
             Controls.Add(lblWins);
             Controls.Add(btnPlayAgain);
             Controls.Add(label1);
-            Controls.Add(btnClose);
             ForeColor = Color.White;
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 2, 3, 2);
@@ -299,6 +298,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Game";
             Load += Game_Load;
+            ((System.ComponentModel.ISupportInitialize)btnImgClose).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -306,7 +306,6 @@
         #endregion
 
         private Label label1;
-        private Button btnClose;
         private Button btnPlayAgain;
         private Label lblWins;
         private Label lblLosses;
@@ -322,5 +321,6 @@
         private Button A3;
         private Button A2;
         private Button A1;
+        private PictureBox btnImgClose;
     }
 }
